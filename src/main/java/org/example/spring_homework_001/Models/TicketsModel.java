@@ -16,6 +16,6 @@ public class TicketsModel {
     private String destinationStation;
     private Double price;
     private Boolean paymentStatus;
-    private Boolean ticketStatus;
+    private String ticketStatus;
     private Integer seatNumber;
 }

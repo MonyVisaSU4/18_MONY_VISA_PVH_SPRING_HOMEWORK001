@@ -16,9 +16,9 @@ public class TicketsControler {
     private final List<TicketsModel> ticketList = new ArrayList<>();
 
     public TicketsControler(){
-        ticketList.add(new TicketsModel(1,"Teav Chanra", Date.valueOf("2025-03-15"),"Phnom Penh","Prey Veng",250.99,true,true,36));
-        ticketList.add(new TicketsModel(2,"Mony Visa",Date.valueOf("2025-03-18"),"Siem Reap","Prey Veng",550.99,true,true,76));
-        ticketList.add(new TicketsModel(3,"Hak korlimhour",Date.valueOf("2025-03-25"),"Battambang","Prey Veng",150.99,true,true,16));
+        ticketList.add(new TicketsModel(1,"Teav Chanra", Date.valueOf("2025-03-15"),"Phnom Penh","Prey Veng",250.99,true,"BOOKED",36));
+        ticketList.add(new TicketsModel(2,"Mony Visa",Date.valueOf("2025-03-18"),"Siem Reap","Prey Veng",550.99,true,"CANCELED",76));
+        ticketList.add(new TicketsModel(3,"Hak korlimhour",Date.valueOf("2025-03-25"),"Battambang","Prey Veng",150.99,true,"PROGRESS",16));
     }
 
     // already
