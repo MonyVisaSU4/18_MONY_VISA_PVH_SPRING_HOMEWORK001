@@ -6,10 +6,12 @@ import org.springframework.web.bind.annotation.*;
 
 import java.sql.Date;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 import java.util.Objects;
 
 @RestController
+@RequestMapping("/api/v1/tickets")
 public class TicketsControler {
     private final List<TicketsModel> ticketList = new ArrayList<>();
 
@@ -20,20 +22,20 @@ public class TicketsControler {
     }
 
     // already
-    @PostMapping("/api/v1/tickets/addTickets")
+    @PostMapping("/addTickets")
     public List<TicketsModel> addItem(@RequestBody TicketsModel model){
         ticketList.add(model);
         return ticketList;
     }
 
     // already
-    @GetMapping("/api/v1/tickets/showTickets")
+    @GetMapping("/showTickets")
     public List<TicketsModel> showItem(){
         return ticketList;
     }
 
     // already
-    @GetMapping("/api/v1/tickets/{searchById}")
+    @GetMapping("/{searchById}")
     public List<TicketsModel> searchId(@PathVariable Integer searchById){
         List<TicketsModel> afterSearch = new ArrayList<>();
         for(TicketsModel getModel : ticketList){
@@ -46,7 +48,7 @@ public class TicketsControler {
     }
 
     // already
-    @GetMapping("/api/v1/tickets/searchByName")
+    @GetMapping("/searchByName")
     public List<TicketsModel> searchName(@RequestParam String searchByName){
         List<TicketsModel> afterSearchbyName = new ArrayList<>();
         for(TicketsModel getModelName : ticketList){
@@ -58,21 +60,33 @@ public class TicketsControler {
         return null;
     }
 
-    // Not Already
-    @PutMapping("/api/v1/tickets/{updateTicket}")
-    public String updateById(@PathVariable Integer updateTicket, @RequestBody TicketsModelNoId upModelNoId){
-        for(TicketsModel getModel : ticketList){
-            if(Objects.equals(getModel.getTicketId(), updateTicket)){
-                int index = ticketList.indexOf(getModel);
-                ticketList.set(index+1,getModel);
-                return "Update Successfully";
+    // Already
+    @PutMapping("/{updateMyTicket}")
+    public String updateById(@RequestParam Integer updateMyTicket, @RequestBody TicketsModel upingTicket){
+        List<TicketsModel> updateList = new ArrayList<>();
+        Collection<TicketsModelNoId> appendRow = new ArrayList<>();
+        for(TicketsModel findToUp : ticketList){
+            if(Objects.equals(findToUp.getTicketId(), updateMyTicket)){
+                ticketList.remove(findToUp);
+                updateList.add(findToUp);
+                upingTicket.setTicketId(updateMyTicket);
+                upingTicket.setPassengerName(upingTicket.getPassengerName());
+                upingTicket.setTicketStatus(upingTicket.getTicketStatus());
+                upingTicket.setPrice(upingTicket.getPrice());
+                upingTicket.setSeatNumber(upingTicket.getSeatNumber());
+                upingTicket.setPaymentStatus(upingTicket.getPaymentStatus());
+                upingTicket.setSourceStation(upingTicket.getSourceStation());
+                upingTicket.setTravelDate(upingTicket.getTravelDate());
+                upingTicket.setDestinationStation(upingTicket.getDestinationStation());
+                ticketList.add(upingTicket);
+                return "Updated Successfully";
             }
         }
-        return null;
+        return "";
     }
 
     // already
-    @DeleteMapping("/api/v1/tickets/{deleteTicket}")
+    @DeleteMapping("/{deleteTicket}")
     public String deleteById(@PathVariable Integer deleteTicket){
         for(TicketsModel findDelete : ticketList){
             if(Objects.equals(findDelete.getTicketId(), deleteTicket)){
